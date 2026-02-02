@@ -6,23 +6,18 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-# Настройки приложения через переменные окружения
 PORT = int(os.environ.get('PORT', 8000))
 APP_NAME = os.environ.get('APP_NAME', 'Flask Docker App')
 DEBUG_MODE = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-# Директория для загрузки файлов
 UPLOAD_FOLDER = '/app/storage'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'json'}
 
-# Создаем директорию, если ее нет
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Конфигурация Flask
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
-# Файл для логов
 LOG_FILE = os.path.join(UPLOAD_FOLDER, 'app_log.json')
 
 def allowed_file(filename):
@@ -42,17 +37,14 @@ def log_request(endpoint, method, ip_address):
             'port': PORT
         }
         
-        # Читаем существующие логи
         if os.path.exists(LOG_FILE):
             with open(LOG_FILE, 'r') as f:
                 logs = json.load(f)
         else:
             logs = []
         
-        # Добавляем новую запись
         logs.append(log_entry)
         
-        # Сохраняем (ограничиваем 100 последних записей)
         with open(LOG_FILE, 'w') as f:
             json.dump(logs[-100:], f, indent=2)
             
@@ -119,10 +111,8 @@ def upload_file():
         filename = secure_filename(file.filename)
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         
-        # Сохраняем файл
         file.save(filepath)
         
-        # Получаем информацию о файле
         file_info = {
             'filename': filename,
             'size': os.path.getsize(filepath),
@@ -229,7 +219,7 @@ if __name__ == '__main__':
     print("=" * 50)
     
     app.run(
-        host='0.0.0.0',  # Принимаем соединения со всех интерфейсов
+        host='0.0.0.0',
         port=PORT,
         debug=DEBUG_MODE
     )
