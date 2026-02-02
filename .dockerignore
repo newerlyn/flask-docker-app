@@ -1,0 +1,52 @@
+# Игнорируем системные файлы Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Игнорируем виртуальные окружения
+env/
+venv/
+.venv/
+ENV/
+
+# Игнорируем IDE файлы
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Игнорируем логи и кэш
+*.log
+*.sqlite3
+
+# Игнорируем файлы сборки
+build/
+dist/
+*.egg-info/
+
+# Игнорируем тестовые файлы
+tests/
+test_*.py
+
+# Игнорируем конфигурационные файлы (копируем только нужные)
+.env
+.env.local
+.env.production
+
+# Игнорируем файлы операционной системы
+.DS_Store
+Thumbs.db
+
+# Игнорируем Git
+.git/
+.gitignore
+
+# Игнорируем сам Dockerignore и README
+.dockerignore
+README.md
+
+# Игнорируем storage в хост-системе (используем volume)
+storage/
+!storage/.gitkeep
